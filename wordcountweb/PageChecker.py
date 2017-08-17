@@ -2,6 +2,9 @@
 
 # -*- coding: utf-8 -*-
 
+import string
+import re
+
 from urllib import request
 from wordcountweb.WebPageInformation import WebPageInformation
 
@@ -16,16 +19,23 @@ class PageChecker:
 
     def get_analysis_result(self) -> int:
         """ Retorna o resultado da analise de uma pagina web"""
-        page = self.open_url(self.web_page_information.url, self.web_page_information.data)
-        page_content = self.read_page(page, self.web_page_information.encode)
-        return self.count_word(self.web_page_information.key_word, page_content)
+        page = self.open_url(self.web_page_information.get_url_value(), self.web_page_information.get_proxy_value())
+        page_content = self.read_page(page, self.web_page_information.get_encode_value())
+        return self.count_words(self.web_page_information.get_keyword_value(), page_content)
 
-    def open_url(self, url: str, data: object):
+    def open_url(self, url: str, proxy_settings: str):
         """ Realiza uma requisicao para a pagina especificada
-        :param data: Dados adicionais a serrem enviados ao server
+        :param url: A url a ser aberta
+        :param proxy_settings: Configurações de proxy a serrem enviados ao server
         :return: A pagina obtida atraves da requisicao"""
 
-        web_page = request.urlopen(url, data)
+        if proxy_settings != '':
+            proxy = {'https': proxy_settings, 'http': proxy_settings}
+            proxy_support = request.ProxyHandler(proxies=proxy)
+            opener = request.build_opener(proxy_support)
+            request.install_opener(opener)
+
+        web_page = request.urlopen(url)
         return web_page
 
     def read_page(self, web_page, encode: str) -> str:
@@ -38,8 +48,28 @@ class PageChecker:
         content = web_page.read().decode(encode)
         return content
 
-    def count_word(self, key_word: str, text: str):
+    def remove_html_tags(self, raw_html: str) -> str:
+        """ Remove todas as tags de um texto html puro. """
+
+        clean_re = re.compile(r'<[^>]+>')
+        clean_text = re.sub(clean_re, '', raw_html)
+        return clean_text
+
+    def count_words(self, key_word: str, raw_html: str) -> int:
         """ Realiza a contagem de ocorrencias de uma palavra em
         um determinado texto."""
 
-        return 0
+        text = self.remove_html_tags(raw_html)
+
+        for character in string.punctuation:
+            text = text.replace(character, ' ')
+        text = text.split()
+
+        words = {}
+        for character in text:
+            if character not in words:
+                words[character] = 1
+            else:
+                words[character] += 1
+
+        return 0 if key_word not in words else words[key_word]
