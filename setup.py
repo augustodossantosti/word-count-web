@@ -5,12 +5,12 @@ from cx_Freeze import setup, Executable
 os.environ['TCL_LIBRARY'] = "C:/Python36x64/tcl/tcl8.6"
 os.environ['TK_LIBRARY'] = "C:/Python36x64/tcl/tk8.6"
 
-include_files = ['resources/autorun.inf', 'C:/Python36x64/DLLs/tcl86t.dll', 'C:/Python36x64/DLLs/tk86t.dll']
+include_files = ['resources/autorun.inf',
+                 'resources/favicon.ico',
+                 'C:/Python36x64/DLLs/tcl86t.dll',
+                 'C:/Python36x64/DLLs/tk86t.dll']
 
-build_exe_options = {'packages': [],
-                     'includes': [],
-                     'excludes': [],
-                     'include_files': include_files}
+build_exe_options = {'include_files': include_files}
 
 base = 'Win32GUI' if sys.platform == 'win32' else None
 executables = [Executable('wordcountweb/word-count-app.py', base=base, icon='resources/favicon.ico')]

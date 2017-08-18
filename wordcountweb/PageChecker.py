@@ -14,14 +14,19 @@ class PageChecker:
     e prove os metodos necessarios para busca e contagem de
     palavras chaves."""
 
-    def __init__(self, web_page_information: WebPageInformation):
+    def __init__(self, web_page_information=None):
+        self.web_page_information = web_page_information
+
+    def set_web_page_information(self, web_page_information):
         self.web_page_information = web_page_information
 
     def get_analysis_result(self) -> int:
         """ Retorna o resultado da analise de uma pagina web"""
+
         page = self.open_url(self.web_page_information.get_url_value(), self.web_page_information.get_proxy_value())
         page_content = self.read_page(page, self.web_page_information.get_encode_value())
-        return self.count_words(self.web_page_information.get_keyword_value(), page_content)
+        raw_text = self.remove_html_tags(page_content)
+        return self.count_words(self.web_page_information.get_keyword_value(), raw_text)
 
     def open_url(self, url: str, proxy_settings: str):
         """ Realiza uma requisicao para a pagina especificada
@@ -55,14 +60,15 @@ class PageChecker:
         clean_text = re.sub(clean_re, '', raw_html)
         return clean_text
 
-    def count_words(self, key_word: str, raw_html: str) -> int:
+    def count_words(self, key_word: str, raw_text: str) -> int:
         """ Realiza a contagem de ocorrencias de uma palavra em
         um determinado texto."""
 
-        text = self.remove_html_tags(raw_html)
-
         for character in string.punctuation:
-            text = text.replace(character, ' ')
+            text = raw_text.replace(character, ' ')
+
+        text = text.lower()
+        key_word = key_word.lower()
         text = text.split()
 
         words = {}

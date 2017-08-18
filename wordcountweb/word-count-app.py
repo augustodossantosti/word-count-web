@@ -8,8 +8,10 @@ from tkinter.constants import CENTER
 from wordcountweb.PageChecker import PageChecker
 from wordcountweb.WebPageInformation import WebPageInformation
 
-
 # Window functions
+
+page_checker = PageChecker()
+
 
 def count():
     """ Inicia o processo de contagem de ocorrencia de palavras
@@ -17,7 +19,7 @@ def count():
 
     if are_fields_valid():
         web_page_information = WebPageInformation(txt_url, txt_proxy, txt_encode, txt_keyword)
-        page_checker = PageChecker(web_page_information)
+        page_checker.set_web_page_information(web_page_information)
         lb_result_value['text'] = page_checker.get_analysis_result()
 
 
@@ -26,6 +28,7 @@ def are_fields_valid() -> bool:
     forma correta."""
 
     return txt_url.get() != '' and txt_encode.get() != '' and txt_keyword.get() != ''
+
 
 # Window properties
 
