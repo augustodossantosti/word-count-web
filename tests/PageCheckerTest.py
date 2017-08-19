@@ -12,7 +12,7 @@ class PageCheckerTest(TestCase):
         cls.page_checker = PageChecker()
 
     def test_remove_html_tags(self):
-        raw_html = '<!DOCTYPE html><html><body:><h1>python is so cool</h1></body></html>'
+        raw_html = '<!DOCTYPE html><html><body><h1>python is so cool</h1></body></html>'
         raw_text = self.page_checker.remove_html_tags(raw_html)
         self.assertTrue('<' not in raw_text and '>' not in raw_text, 'Erro ao remover as tags html.')
 

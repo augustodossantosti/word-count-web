@@ -36,10 +36,12 @@ class PageChecker:
 
         if proxy_settings != '':
             proxy = {'https': proxy_settings, 'http': proxy_settings}
-            proxy_support = request.ProxyHandler(proxies=proxy)
-            opener = request.build_opener(proxy_support)
-            request.install_opener(opener)
+        else:
+            proxy = {}
 
+        proxy_support = request.ProxyHandler(proxies=proxy)
+        opener = request.build_opener(proxy_support)
+        request.install_opener(opener)
         web_page = request.urlopen(url)
         return web_page
 

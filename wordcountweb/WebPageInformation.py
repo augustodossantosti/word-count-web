@@ -1,13 +1,14 @@
 """ Este modulo contem a definicao da classe que encapsula informacoes de uma pagina web."""
 
 # -*- coding: utf-8 -*-
+from tkinter import Entry
 
 
 class WebPageInformation:
     """ Contem as informacoes sobre a pagina a ser analisada pela aplicacao."""
 
-    def __init__(self, url_component: object, proxy_component: object,
-                 encode_component: object, key_word_component: object):
+    def __init__(self, url_component: Entry, proxy_component: Entry,
+                 encode_component: Entry, key_word_component: Entry):
         self.url_component = url_component
         self.proxy_component = proxy_component
         self.encode_component = encode_component

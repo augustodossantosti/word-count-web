@@ -2,7 +2,7 @@
 
 # -*- coding: utf-8 -*-
 
-from tkinter import Tk, Button, Label, Entry
+from tkinter import Tk, Button, Label, Entry, messagebox
 from tkinter.constants import CENTER
 
 from wordcountweb.PageChecker import PageChecker
@@ -20,7 +20,11 @@ def count():
     if are_fields_valid():
         web_page_information = WebPageInformation(txt_url, txt_proxy, txt_encode, txt_keyword)
         page_checker.set_web_page_information(web_page_information)
-        lb_result_value['text'] = page_checker.get_analysis_result()
+        try:
+            result = page_checker.get_analysis_result()
+            lb_result_value['text'] = result
+        except Exception as error:
+            messagebox.showerror('Error!', '%s' % error)
 
 
 def are_fields_valid() -> bool:
