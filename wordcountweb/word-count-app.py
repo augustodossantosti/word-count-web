@@ -1,4 +1,11 @@
-""" Este modulo define a interface grafica da aplicacao."""
+"""
+Este modulo contem as configuracoes da interface grafica da aplicacao
+e metodos uteis ao processo de analise de palavras-chave.
+
+author:     Augusto Santos
+version:    1.0
+
+"""
 
 # -*- coding: utf-8 -*-
 

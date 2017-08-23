@@ -1,6 +1,13 @@
-""" Este modulo contem a definicao da classe que encapsula informacoes de uma pagina web."""
+"""
+Este modulo contem a definicao da classe que encapsula informacoes de uma pagina web.
+
+author:     Augusto Santos
+version:    1.0
+
+"""
 
 # -*- coding: utf-8 -*-
+
 from tkinter import Entry
 
 
